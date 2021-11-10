@@ -1,0 +1,63 @@
+import plantas.*
+import parcelas.*
+import inta.*
+
+
+test "ejemplos plantas" {
+	
+	const plantaDeMenta = new Menta(altura = 1 , anioDeObtencion = 2020)
+
+	assert.that(plantaDeMenta.daSemillas())
+	assert.that(plantaDeMenta.espacioQueOcupa() == 3)
+	
+	const plantaDeSoja = new Soja (altura = 0.6 , anioDeObtencion = 2009)
+	
+	assert.equals(plantaDeSoja.horasDeSolToleradas() , 7)
+	assert.notThat(plantaDeSoja.daSemillas())
+	assert.that(plantaDeSoja.espacioQueOcupa() == 0.3 )
+	
+	const plantaDeQuinoa = new Quinoa(altura = 0.3 , anioDeObtencion = 2010 , horasDeSolToleradasPorQuinoa = 12)
+	
+	assert.that(plantaDeQuinoa.daSemillas())
+	
+	const plantaDeSojaTransgenica = new SojaTransgenica(altura = 0.6 , anioDeObtencion = 2009)
+	
+	assert.notThat(plantaDeSojaTransgenica.daSemillas())
+
+    const hierbabuena = new Hierbabuena(altura = 1 , anioDeObtencion = 2020)
+    assert.that(hierbabuena.daSemillas())
+    assert.that(hierbabuena.espacioQueOcupa() == 6)
+    
+    const parcela1 = new ParcelaIndustrial(largo = 2, ancho = 10 , horasDeSolRecibidas = 8)
+    
+    assert.that(plantaDeMenta.parcelaEsIdeal(parcela1))
+    assert.that(hierbabuena.parcelaEsIdeal(parcela1))
+    assert.notThat(plantaDeQuinoa.parcelaEsIdeal(parcela1))
+    assert.notThat(plantaDeSoja.parcelaEsIdeal(parcela1))
+    assert.notThat(plantaDeSojaTransgenica.parcelaEsIdeal(parcela1))
+     
+    
+
+}
+
+test " parcelas " { 
+	
+	const parcela1 = new ParcelaEcologica(largo = 1, ancho = 20 , horasDeSolRecibidas = 8)
+	const plantaDeSoja1 = new Soja (altura = 1.6 , anioDeObtencion = 2004)
+	const plantaDeSoja2 = new Soja (altura = 1.2 , anioDeObtencion = 2007)
+	const plantaDeSoja3 = new Soja (altura = 1.1 , anioDeObtencion = 20012)
+	const plantaDeSoja4 = new Soja (altura = 1.9 , anioDeObtencion = 2002)
+	const plantaDeSoja5 = new Soja (altura = 0.5 , anioDeObtencion = 2002)
+	
+	assert.equals(parcela1.superficie() , 20)
+	assert.that(parcela1.plantasToleradas() == 4)
+	
+	parcela1.plantar(plantaDeSoja1)
+	parcela1.plantar(plantaDeSoja2)
+	parcela1.plantar(plantaDeSoja3)
+	parcela1.plantar(plantaDeSoja4)
+	
+	assert.notThat(parcela1.tieneComplicaciones())	
+	assert.notThat(parcela1._seAsociaBien(plantaDeSoja5))
+	
+}
